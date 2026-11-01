@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api:
+    name: API · Python 3.12
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mapflow_test
+          POSTGRES_USER: mapflow_test
+          POSTGRES_PASSWORD: ci-ephemeral-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mapflow_test -d mapflow_test"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      DATABASE_URL: postgresql+psycopg://mapflow_test:ci-ephemeral-only@localhost:5432/mapflow_test
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: services/api/requirements.lock
+      - name: Install pinned API dependencies
+        run: python -m pip install -c services/api/requirements.lock -r services/api/requirements-dev.txt
+      - name: Lint
+        run: python -m ruff check .
+      - name: Format
+        run: python -m ruff format --check .
+      - name: Check generated OpenAPI types
+        run: python scripts/generate_web_types.py --check
+      - name: API tests and contract
+        run: python -m pytest -q
+      - name: Verify Alembic setup
+        run: |
+          PYTHONPATH=services/api python -m alembic -c services/api/alembic.ini upgrade head
+          PYTHONPATH=services/api python -m alembic -c services/api/alembic.ini check
+      - name: PostgreSQL integration test
+        run: python -m pytest -q -m integration
+      - name: Build API container
+        run: docker build --target runtime -f infra/Dockerfile.api -t mapflow-api:ci .
+
+  web:
+    name: Web · Node 22
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Build web container
+        run: docker build -f infra/Dockerfile.web -t mapflow-web:ci .
