@@ -1,0 +1,19 @@
+[tool.pytest.ini_options]
+testpaths = ["tests/api"]
+pythonpath = ["services/api"]
+addopts = "-m 'not integration'"
+markers = ["integration: requires an isolated PostgreSQL database"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["services/api/alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.format]
+quote-style = "double"

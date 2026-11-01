@@ -1,0 +1,27 @@
+FROM python:3.12-slim AS runtime
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/workspace/services/api \
+    RUFF_CACHE_DIR=/tmp/ruff \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /workspace
+COPY services/api/requirements*.txt services/api/requirements.lock ./services/api/
+RUN pip install --no-cache-dir -c services/api/requirements.lock -r services/api/requirements.txt
+COPY services/api/app ./services/api/app
+COPY services/api/alembic.ini ./services/api/alembic.ini
+COPY services/api/alembic ./services/api/alembic
+USER 10001:10001
+EXPOSE 8000
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+FROM runtime AS checks
+USER root
+RUN pip install --no-cache-dir -c services/api/requirements.lock -r services/api/requirements-dev.txt
+COPY pyproject.toml ./
+COPY tests ./tests
+COPY docs ./docs
+COPY scripts ./scripts
+COPY apps/web/src/api/generated.ts ./apps/web/src/api/generated.ts
+USER 10001:10001
+CMD ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider"]

@@ -1,0 +1,75 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MapFlow AI API",
+    "description": "Phase A — M1 foundation. Chỉ phục vụ kho mô phỏng.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Liveness check",
+        "operationId": "get_health",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/HealthResponse"}}}
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": ["health"],
+        "summary": "PostgreSQL readiness check",
+        "operationId": "get_readiness",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReadinessResponse"}}}
+          },
+          "503": {
+            "description": "Database unavailable",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorResponse"}}}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string", "const": "ok", "title": "Status"},
+          "service": {"type": "string", "const": "mapflow-api", "title": "Service"},
+          "version": {"type": "string", "const": "0.1.0", "title": "Version"},
+          "simulation": {"type": "boolean", "const": true, "title": "Simulation"}
+        },
+        "required": ["status", "service", "version", "simulation"],
+        "title": "HealthResponse"
+      },
+      "ReadinessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string", "const": "ready", "title": "Status"},
+          "database": {"type": "string", "const": "ok", "title": "Database"},
+          "simulation": {"type": "boolean", "const": true, "title": "Simulation"}
+        },
+        "required": ["status", "database", "simulation"],
+        "title": "ReadinessResponse"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {"type": "string", "title": "Code"},
+          "message": {"type": "string", "title": "Message"},
+          "details": {"anyOf": [{"type": "object", "additionalProperties": true}, {"type": "null"}], "title": "Details"}
+        },
+        "required": ["code", "message", "details"],
+        "title": "ErrorResponse"
+      }
+    }
+  }
+}
