@@ -30,9 +30,23 @@
 | Workflow actionlint | Passed |
 | Compose `up --build -d --wait` | db/api/web đều healthy |
 | Live HTTP | Health, readiness và web shell tiếng Việt passed |
+| Giao diện tablet 1024 px | Đã kiểm tra bằng Chromium, kết nối API thành công |
 
-Chưa xác nhận GitHub Actions run tại thời điểm ghi báo cáo ban đầu.
-Không suy ra CI GitHub xanh từ kết quả local.
+## Commit và CI thực tế
+
+| Commit | Nội dung |
+| --- | --- |
+| `ed1ae2c` | `feat(api): bootstrap contract-first FastAPI foundation` |
+| `fa3eed5` | `feat(web): add Vietnamese foundation shell and local stack` |
+| `3d85fa1` | `ci: validate M1 foundation and document milestone scope` |
+
+[GitHub Actions run 41295856139](https://github.com/nvtank/AI-Intelligent-Warehouse-Management/actions/runs/41295856139)
+đã **success** cho commit `3d85fa1dbbc80a6ed56035397254d4573b158f8e`:
+API/Python 3.12 và Web/Node 22 đều passed, bao gồm build container.
+
+Repo Git được khởi tạo riêng tại `mapflow`, dùng origin hiện có
+`nvtank/AI-Intelligent-Warehouse-Management`; không stage các dự án cùng
+thư mục cha. Source đã được push lên `main`. Chưa tạo tag M7.
 
 ## Chạy lại kiểm tra
 
