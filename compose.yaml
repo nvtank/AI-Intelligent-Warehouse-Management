@@ -1,0 +1,4 @@
+name: mapflow
+include:
+  - path: ./infra/compose.yaml
+    project_directory: .

@@ -1,0 +1,15 @@
+{
+  "name": "mapflow-ai",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["apps/web"],
+  "engines": {"node": ">=20.19.0 <21 || >=22.12.0"},
+  "scripts": {
+    "dev": "npm run dev --workspace @mapflow/web",
+    "lint": "npm run lint --workspace @mapflow/web",
+    "test": "npm run test --workspace @mapflow/web",
+    "build": "npm run build --workspace @mapflow/web",
+    "types:generate": "python3 scripts/generate_web_types.py",
+    "types:check": "python3 scripts/generate_web_types.py --check"
+  }
+}

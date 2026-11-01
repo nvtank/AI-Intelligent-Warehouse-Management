@@ -1,0 +1,20 @@
+export default [{
+  files: ["**/*.js", "**/*.mjs"],
+  ignores: ["**/node_modules/**", "**/dist/**"],
+  languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+  rules: {
+    "constructor-super": "error",
+    "eqeqeq": ["error", "always"],
+    "no-constant-condition": "error",
+    "no-debugger": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-imports": "error",
+    "no-eval": "error",
+    "no-fallthrough": "error",
+    "no-unsafe-finally": "error",
+    "no-unreachable": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+  },
+}];

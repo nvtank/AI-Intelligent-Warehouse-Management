@@ -1,0 +1,72 @@
+:root {
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #183b36;
+  background: #f6f8f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: 1.6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+a { color: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid #ba7e2b; outline-offset: 5px; }
+.app-shell { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+.app-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 104px; border-bottom: 1px solid #dce4dd; }
+.brand { display: flex; gap: 12px; align-items: center; text-decoration: none; font-size: 24px; font-weight: 750; letter-spacing: -.8px; }
+.brand-mark { display: flex; align-items: center; padding: 0 10px; height: 38px; background: #164c40; color: white; border-radius: 9px; font-size: 24px; }
+.brand-mark span { color: #c8df8c; font-size: 18px; }
+.brand-ai { font-weight: 400; color: #71847c; }
+.environment-badge { background: #e9eedf; border: 1px solid #d6dfc4; border-radius: 5px; padding: 5px 10px; font-size: 10px; font-weight: 750; letter-spacing: 1px; }
+main { padding: 64px 0 40px; min-height: calc(100vh - 181px); }
+.eyebrow { font-size: 11px; font-weight: 750; letter-spacing: 2px; color: #668071; }
+h1 { margin: 18px 0; font-size: clamp(34px, 4.4vw, 56px); font-weight: 650; line-height: 1.2; letter-spacing: -2px; }
+.intro { max-width: 650px; margin: 22px 0; color: #60746b; font-size: 16px; line-height: 1.8; }
+.simulation-note { display: inline-flex; align-items: center; gap: 10px; background: #edf1e8; padding: 8px 12px; border-radius: 5px; color: #50694d; font-size: 12px; }
+.simulation-note span { font-size: 20px; }
+.roadmap { margin-top: 52px; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+h2 { font-size: 19px; font-weight: 650; margin: 0; letter-spacing: -.4px; }
+.section-heading > span { font-size: 11px; color: #748477; }
+.milestone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.milestone { min-height: 164px; padding: 22px; background: #fff; border: 1px solid #dfe6df; border-radius: 8px; }
+.milestone-current { background: #184a3e; border-color: #184a3e; color: #f3f8ef; }
+.milestone-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.milestone-code { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #7b8e82; }
+.milestone-state { font-size: 10px; color: #738579; }
+.milestone-current .milestone-code, .milestone-current .milestone-state { color: #c9dfa3; }
+h3 { font-size: 15px; margin: 20px 0 5px; font-weight: 650; }
+.milestone p { margin: 0; font-size: 12px; color: #738279; }
+.milestone-current p { color: #bad0c4; }
+.empty-note { margin: 24px 0; font-size: 12px; color: #76867a; }
+.connection { display: flex; align-items: center; gap: 9px; font-size: 12px; color: #53705e; margin: 30px 0 0; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4b8a5c; }
+.api-version { color: #7a8b7e; }
+.connection-error { color: #9b402c; flex-wrap: wrap; }
+.connection-error p { margin: 0; }
+.connection button { border: 1px solid #bdc9bc; padding: 8px 14px; min-height: 44px; border-radius: 5px; background: white; color: #183b36; }
+footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #dce4dd; min-height: 77px; font-size: 11px; color: #7d8e81; }
+.skip-link { position: absolute; left: 12px; top: -80px; background: #fff; padding: 12px; z-index: 1; }
+.skip-link:focus { top: 12px; }
+.not-found { padding: 60px 0; }
+@media (max-width: 900px) {
+  .app-shell { padding: 0 28px; }
+  .milestone-grid { grid-template-columns: repeat(2, 1fr); }
+  main { padding-top: 42px; }
+}
+@media (max-width: 560px) {
+  .app-shell { padding: 0 20px; }
+  .app-header { min-height: 84px; gap: 10px; }
+  .brand { font-size: 21px; gap: 8px; }
+  .environment-badge { font-size: 8px; padding: 4px 7px; }
+  .section-heading { display: block; }
+  .section-heading > span { display: block; margin-top: 6px; }
+  .milestone-grid { grid-template-columns: 1fr; }
+  h1 { letter-spacing: -1.2px; }
+  .intro { font-size: 14px; }
+  .simulation-note { align-items: flex-start; }
+  footer { gap: 16px; }
+}
